@@ -75,6 +75,7 @@ func (l *Logger) Crash(err error, errLocationInCode, message string) {
 			}
 		} else {
 			fmt.Println("[CRASH]" + str)
+			os.Exit(1)
 		}
 	}
 
