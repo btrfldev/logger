@@ -3,6 +3,7 @@ package logger
 import (
 	"errors"
 	"fmt"
+	"os"
 )
 
 type Logger struct {
@@ -54,10 +55,10 @@ func (l *Logger) Error(err error, errLocationInCode, message string) {
 		if !l.LogToTerminal {
 			pubErr := l.CustomPublishErrMethod(err, errLocationInCode, message, LogLevelError)
 			if pubErr != nil {
-				fmt.Println("Can`t Publish Error!" + "[Error]" + str)
+				fmt.Fprintln(os.Stderr, "Can`t Publish Error!"+"[ERROR]"+str)
 			}
 		} else {
-			fmt.Println("[Error]" + str)
+			fmt.Println("[CRASH]" + str)
 		}
 	}
 
@@ -69,10 +70,11 @@ func (l *Logger) Crash(err error, errLocationInCode, message string) {
 		if !l.LogToTerminal {
 			pubErr := l.CustomPublishErrMethod(err, errLocationInCode, message, LogLevelCrash)
 			if pubErr != nil {
-				panic("Can`t Publish Error!" + "[Panic]" + str)
+				fmt.Fprintln(os.Stderr, "Can`t Publish Error!"+"[CRASH]"+str)
+				os.Exit(1)
 			}
 		} else {
-			panic("[Error]" + str)
+			fmt.Println("[CRASH]" + str)
 		}
 	}
 
